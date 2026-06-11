@@ -1,769 +1,545 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Muhammad Adeel — Front-End Developer & Chatbot Specialist</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #050a14;
-    --surface: #0b1323;
-    --surface2: #111d30;
-    --border: rgba(99,179,237,0.12);
-    --accent: #38bdf8;
-    --accent2: #818cf8;
-    --accent3: #34d399;
-    --text: #e2eaf4;
-    --muted: #7a8fa8;
-    --heading: #f0f8ff;
-    --glow: rgba(56,189,248,0.18);
-    --glow2: rgba(129,140,248,0.13);
-  }
-
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    overflow-x: hidden;
-    line-height: 1.7;
-  }
-
-  /* NOISE OVERLAY */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.4;
-  }
-
-  /* BACKGROUND ORBS */
-  .bg-orb {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(120px);
-    pointer-events: none;
-    z-index: 0;
-  }
-  .orb1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(56,189,248,0.08) 0%, transparent 70%); top: -200px; right: -100px; }
-  .orb2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(129,140,248,0.07) 0%, transparent 70%); bottom: 10%; left: -150px; }
-  .orb3 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(52,211,153,0.06) 0%, transparent 70%); top: 40%; right: 10%; }
-
-  /* NAV */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 1000;
-    padding: 0 5%;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: rgba(5,10,20,0.7);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .nav-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.3rem;
-    color: var(--heading);
-    letter-spacing: -0.02em;
-    text-decoration: none;
-  }
-  .nav-logo span { color: var(--accent); }
-
-  .nav-links {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-  }
-  .nav-links a {
-    text-decoration: none;
-    color: var(--muted);
-    font-size: 0.88rem;
-    font-weight: 500;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    transition: color 0.3s;
-  }
-  .nav-links a:hover { color: var(--accent); }
-
-  .nav-cta {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: #000 !important;
-    padding: 8px 20px;
-    border-radius: 6px;
-    font-weight: 600 !important;
-    transition: opacity 0.3s !important;
-  }
-  .nav-cta:hover { opacity: 0.85; color: #000 !important; }
-
-  /* SECTIONS */
-  section { position: relative; z-index: 1; }
-
-  /* HERO */
-  #home {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 100px 5% 60px;
-  }
-
-  .hero-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-  }
-
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(56,189,248,0.1);
-    border: 1px solid rgba(56,189,248,0.25);
-    padding: 6px 14px;
-    border-radius: 50px;
-    font-size: 0.78rem;
-    color: var(--accent);
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    animation: fadeUp 0.6s ease both;
-  }
-  .badge-dot { width: 6px; height: 6px; background: var(--accent3); border-radius: 50%; animation: pulse 2s infinite; }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.4); }
-  }
-
-  .hero-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(2.8rem, 5vw, 4.2rem);
-    line-height: 1.05;
-    color: var(--heading);
-    letter-spacing: -0.03em;
-    animation: fadeUp 0.7s ease both 0.1s;
-  }
-  .hero-name .accent { 
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero-title {
-    font-size: 1rem;
-    color: var(--accent2);
-    font-weight: 500;
-    margin: 1rem 0 1.2rem;
-    letter-spacing: 0.02em;
-    animation: fadeUp 0.7s ease both 0.2s;
-  }
-
-  .hero-desc {
-    color: var(--muted);
-    font-size: 1.05rem;
-    max-width: 480px;
-    animation: fadeUp 0.7s ease both 0.3s;
-    line-height: 1.8;
-  }
-
-  .hero-btns {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-    animation: fadeUp 0.7s ease both 0.4s;
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent), #0ea5e9);
-    color: #000;
-    padding: 13px 28px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.92rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 0 30px rgba(56,189,248,0.3);
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 45px rgba(56,189,248,0.45); }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--text);
-    padding: 13px 28px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.92rem;
-    border: 1px solid var(--border);
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-
-  /* HERO VISUAL */
-  .hero-visual {
-    animation: fadeUp 0.8s ease both 0.2s;
-    display: flex;
-    justify-content: center;
-  }
-
-  .hero-card {
-    width: 340px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
-  }
-
-  .avatar-ring {
-    width: 90px; height: 90px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 1.2rem;
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 2rem;
-    color: #000;
-    box-shadow: 0 0 40px rgba(56,189,248,0.35);
-  }
-
-  .card-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1.1rem;
-    text-align: center;
-    color: var(--heading);
-  }
-  .card-role { text-align: center; color: var(--muted); font-size: 0.82rem; margin-top: 4px; margin-bottom: 1.2rem; }
-
-  .card-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.8rem;
-    margin-top: 1rem;
-  }
-  .stat-box {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 0.8rem;
-    text-align: center;
-  }
-  .stat-num {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1.4rem;
-    color: var(--accent);
-  }
-  .stat-label { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
-
-  .skill-tags {
-    display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1.2rem;
-  }
-  .skill-tag {
-    background: rgba(56,189,248,0.08);
-    border: 1px solid rgba(56,189,248,0.18);
-    color: var(--accent);
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 0.72rem;
-    font-weight: 500;
-  }
-
-  /* SECTION COMMON */
-  .section-wrap {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 100px 5%;
-  }
-
-  .section-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.75rem;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-weight: 600;
-    margin-bottom: 0.8rem;
-  }
-  .section-label::before {
-    content: '';
-    width: 24px; height: 1px;
-    background: var(--accent);
-  }
-
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(2rem, 4vw, 2.8rem);
-    color: var(--heading);
-    letter-spacing: -0.03em;
-    line-height: 1.15;
-    margin-bottom: 0.5rem;
-  }
-  .section-sub { color: var(--muted); font-size: 1rem; max-width: 520px; margin-bottom: 3rem; }
-
-  /* ABOUT */
-  #about { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-  }
-
-  .about-text p {
-    color: var(--muted);
-    line-height: 1.9;
-    margin-bottom: 1rem;
-    font-size: 1rem;
-  }
-
-  .about-highlights {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-top: 1.5rem;
-  }
-  .highlight-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 1rem;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-  }
-  .hi-icon { font-size: 1.3rem; }
-  .hi-label { font-size: 0.8rem; font-weight: 500; color: var(--text); }
-  .hi-sub { font-size: 0.72rem; color: var(--muted); }
-
-  .about-visual { display: flex; flex-direction: column; gap: 1rem; }
-
-  .info-card {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 1.2rem 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    transition: border-color 0.3s;
-  }
-  .info-card:hover { border-color: var(--accent); }
-  .ic-icon { font-size: 1.5rem; flex-shrink: 0; }
-  .ic-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
-  .ic-value { font-size: 0.95rem; color: var(--text); font-weight: 500; }
-
-  /* SERVICES */
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-
-  .service-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-  }
-  .service-card:hover {
-    transform: translateY(-6px);
-    border-color: var(--accent);
-    box-shadow: 0 20px 60px rgba(56,189,248,0.1);
-  }
-  .service-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    transform: scaleX(0);
-    transition: transform 0.3s;
-    transform-origin: left;
-  }
-  .service-card:hover::after { transform: scaleX(1); }
-
-  .service-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.72rem;
-    color: var(--accent);
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    margin-bottom: 1rem;
-  }
-  .service-icon { font-size: 2.2rem; margin-bottom: 1rem; }
-  .service-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1.15rem;
-    color: var(--heading);
-    margin-bottom: 0.8rem;
-  }
-  .service-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.8; margin-bottom: 1.2rem; }
-
-  .feature-list { list-style: none; }
-  .feature-list li {
-    color: var(--muted);
-    font-size: 0.83rem;
-    padding: 4px 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .feature-list li::before {
-    content: '';
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: var(--accent3);
-    flex-shrink: 0;
-  }
-
-  /* SKILLS */
-  #skills { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-
-  .skills-grid {
-    display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    gap: 3rem;
-  }
-
-  .skill-group-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    color: var(--heading);
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .skill-group-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  .skill-item {
-    margin-bottom: 1.2rem;
-  }
-  .skill-info {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 6px;
-  }
-  .skill-name { font-size: 0.88rem; color: var(--text); font-weight: 500; }
-  .skill-pct { font-size: 0.8rem; color: var(--accent); font-weight: 600; }
-  .skill-bar {
-    height: 5px;
-    background: var(--surface2);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  .skill-fill {
-    height: 100%;
-    border-radius: 3px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .soft-skills-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-  }
-  .soft-item {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.8rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.88rem;
-    color: var(--text);
-    font-weight: 500;
-  }
-  .soft-icon { font-size: 1.1rem; }
-
-  /* PROJECTS */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-  }
-
-  .project-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 1.8rem;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s, border-color 0.3s;
-    cursor: default;
-  }
-  .project-card:hover { transform: translateY(-4px); border-color: var(--accent2); }
-
-  .project-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-  }
-  .project-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: var(--border);
-    line-height: 1;
-  }
-  .project-icon { font-size: 1.8rem; }
-
-  .project-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: var(--heading);
-    margin-bottom: 0.6rem;
-  }
-  .project-desc { color: var(--muted); font-size: 0.85rem; line-height: 1.7; margin-bottom: 1.2rem; }
-
-  .project-techs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .tech-tag {
-    background: rgba(129,140,248,0.1);
-    border: 1px solid rgba(129,140,248,0.2);
-    color: var(--accent2);
-    padding: 3px 10px;
-    border-radius: 4px;
-    font-size: 0.72rem;
-    font-weight: 500;
-  }
-
-  /* EDUCATION */
-  #education { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-
-  .edu-timeline {
-    position: relative;
-    padding-left: 2rem;
-  }
-  .edu-timeline::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 1px;
-    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
-  }
-
-  .edu-item {
-    position: relative;
-    padding: 0 0 2.5rem 2rem;
-  }
-  .edu-item::before {
-    content: '';
-    position: absolute;
-    left: -0.45rem; top: 0.4rem;
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 14px rgba(56,189,248,0.5);
-  }
-  .edu-item:last-child { padding-bottom: 0; }
-
-  .edu-badge {
-    display: inline-block;
-    background: rgba(52,211,153,0.1);
-    border: 1px solid rgba(52,211,153,0.2);
-    color: var(--accent3);
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 4px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-bottom: 0.6rem;
-  }
-
-  .edu-degree {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--heading);
-    margin-bottom: 0.3rem;
-  }
-  .edu-school { color: var(--accent); font-size: 0.9rem; font-weight: 500; margin-bottom: 0.3rem; }
-  .edu-marks { color: var(--muted); font-size: 0.82rem; }
-
-  /* CONTACT */
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 3rem;
-    align-items: start;
-  }
-
-  .contact-info-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1.4rem;
-    color: var(--heading);
-    margin-bottom: 0.5rem;
-  }
-  .contact-info-sub { color: var(--muted); font-size: 0.92rem; margin-bottom: 2rem; line-height: 1.7; }
-
-  .contact-items {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .contact-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    text-decoration: none;
-    padding: 1rem 1.2rem;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    transition: border-color 0.3s, transform 0.2s;
-    color: inherit;
-  }
-  .contact-item:hover { border-color: var(--accent); transform: translateX(4px); }
-  .ci-icon { font-size: 1.3rem; flex-shrink: 0; }
-  .ci-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
-  .ci-val { font-size: 0.9rem; color: var(--text); font-weight: 500; }
-
-  .social-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-  }
-  .social-card {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 1rem 1.2rem;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 0.3s, transform 0.2s;
-  }
-  .social-card:hover { border-color: var(--accent2); transform: translateY(-3px); }
-  .sc-icon { font-size: 1.4rem; }
-  .sc-name { font-size: 0.85rem; font-weight: 500; color: var(--text); }
-  .sc-handle { font-size: 0.72rem; color: var(--muted); }
-
-  .contact-cta {
-    margin-top: 2rem;
-    padding: 2rem;
-    background: linear-gradient(135deg, rgba(56,189,248,0.08), rgba(129,140,248,0.08));
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    text-align: center;
-  }
-  .cta-text { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--heading); margin-bottom: 0.5rem; }
-  .cta-sub { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.2rem; }
-
-  /* FOOTER */
-  footer {
-    position: relative;
-    z-index: 1;
-    border-top: 1px solid var(--border);
-    background: var(--surface);
-    padding: 2rem 5%;
-    text-align: center;
-  }
-  .footer-inner { max-width: 1100px; margin: 0 auto; }
-  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--heading); margin-bottom: 0.4rem; }
-  .footer-logo span { color: var(--accent); }
-  .footer-tagline { color: var(--muted); font-size: 0.82rem; margin-bottom: 0.8rem; }
-  .footer-copy { color: var(--muted); font-size: 0.75rem; border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 1rem; }
-
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* DIVIDER */
-  .divider {
-    width: 60px; height: 3px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    border-radius: 2px;
-    margin: 1rem 0 2rem;
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 768px) {
-    .hero-inner, .about-grid, .skills-grid, .contact-grid { grid-template-columns: 1fr; }
-    .services-grid { grid-template-columns: 1fr; }
-    .projects-grid { grid-template-columns: 1fr; }
-    .social-grid { grid-template-columns: 1fr; }
-    .hero-visual { display: none; }
-    .nav-links { display: none; }
-    .about-highlights { grid-template-columns: 1fr; }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Muhammad Adeel — Front-End Developer & Chatbot Specialist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0f1c35;
+      --navy-light: #1a2d50;
+      --gold: #d4a017;
+      --gold-light: #f0c040;
+      --white: #ffffff;
+      --gray-50: #f8f9fb;
+      --gray-100: #eef0f4;
+      --gray-400: #9ca3af;
+      --gray-600: #4b5563;
+      --gray-800: #1f2937;
+      --text: #1e2535;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --shadow: 0 4px 24px rgba(15,28,53,0.08);
+      --shadow-lg: 0 8px 40px rgba(15,28,53,0.14);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(15,28,53,0.97);
+      backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 0.88rem; font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold-light); }
+    .nav-cta {
+      background: var(--gold);
+      color: var(--navy) !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      color: var(--navy);
+    }
+    .nav-cta:hover { background: var(--gold-light) !important; color: var(--navy) !important; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--navy) 0%, #16305a 60%, #0d1f3d 100%);
+      display: flex; align-items: center;
+      padding: 80px 5% 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -100px; right: -100px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(212,160,23,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 1100px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 4rem; align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(212,160,23,0.15);
+      border: 1px solid rgba(212,160,23,0.3);
+      color: var(--gold-light);
+      padding: 0.35rem 0.9rem;
+      border-radius: 100px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .hero-badge::before { content: '●'; font-size: 0.6rem; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .hero h1 {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 0.6rem;
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero-role {
+      font-size: 1rem; color: rgba(255,255,255,0.65);
+      font-weight: 500; margin-bottom: 1.2rem;
+      letter-spacing: 0.01em;
+    }
+    .hero p {
+      color: rgba(255,255,255,0.7);
+      font-size: 1.05rem; max-width: 520px;
+      line-height: 1.75; margin-bottom: 2rem;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--navy);
+      padding: 0.75rem 1.8rem;
+      border-radius: 8px;
+      font-weight: 700; font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(212,160,23,0.4); }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      color: var(--white);
+      padding: 0.75rem 1.8rem;
+      border-radius: 8px;
+      font-weight: 600; font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .hero-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      min-width: 200px; text-align: center;
+    }
+    .hero-avatar {
+      width: 80px; height: 80px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Sora', sans-serif;
+      font-size: 1.8rem; font-weight: 800; color: var(--navy);
+      margin: 0 auto 1rem;
+    }
+    .hero-card-name {
+      color: var(--white); font-weight: 600; font-size: 0.95rem;
+      margin-bottom: 0.3rem;
+    }
+    .hero-card-sub { color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-bottom: 1.2rem; }
+    .hero-stats { display: flex; gap: 1rem; justify-content: center; }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.4rem; font-weight: 800; color: var(--gold);
+    }
+    .stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.5); }
+    .hero-tags {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-top: 1.4rem;
+    }
+    .hero-tag {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.7);
+      padding: 0.25rem 0.65rem;
+      border-radius: 100px;
+      font-size: 0.75rem;
+    }
+
+    /* SECTIONS */
+    section { padding: 90px 5%; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .eyebrow {
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 800; color: var(--navy);
+      line-height: 1.15; margin-bottom: 0.8rem;
+    }
+    .section-title span { color: var(--gold); }
+    .section-desc {
+      color: var(--gray-600);
+      font-size: 1.05rem; max-width: 560px;
+      line-height: 1.7; margin-bottom: 3rem;
+    }
+    .divider {
+      width: 48px; height: 3px;
+      background: var(--gold);
+      border-radius: 2px;
+      margin-bottom: 3rem;
+    }
+
+    /* ABOUT */
+    #about { background: var(--gray-50); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: start;
+    }
+    .about-text p {
+      color: var(--gray-600); font-size: 1rem;
+      line-height: 1.8; margin-bottom: 1.2rem;
+    }
+    .about-pills {
+      display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem;
+    }
+    .pill {
+      background: var(--navy);
+      color: var(--white);
+      padding: 0.4rem 0.9rem;
+      border-radius: 100px;
+      font-size: 0.8rem; font-weight: 500;
+    }
+    .about-info { display: flex; flex-direction: column; gap: 1rem; }
+    .info-row {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1rem 1.2rem;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .info-icon {
+      font-size: 1.4rem; flex-shrink: 0;
+      width: 40px; height: 40px;
+      background: rgba(212,160,23,0.1);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .info-label { font-size: 0.75rem; color: var(--gray-400); font-weight: 500; }
+    .info-val { font-size: 0.92rem; color: var(--navy); font-weight: 600; }
+
+    /* SERVICES */
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    .service-card {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem;
+      transition: all 0.25s;
+    }
+    .service-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold);
+    }
+    .service-num {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--gold); letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+    .service-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+    .service-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--navy); margin-bottom: 0.6rem;
+    }
+    .service-desc { font-size: 0.9rem; color: var(--gray-600); line-height: 1.7; margin-bottom: 1rem; }
+    .service-list { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+    .service-list li {
+      font-size: 0.83rem; color: var(--gray-600);
+      padding-left: 1.1rem; position: relative;
+    }
+    .service-list li::before { content: '→'; position: absolute; left: 0; color: var(--gold); }
+
+    /* SKILLS */
+    #skills { background: var(--gray-50); }
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .skills-col h3 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1rem; font-weight: 700; color: var(--navy);
+      margin-bottom: 1.5rem;
+    }
+    .skill-item { margin-bottom: 1.2rem; }
+    .skill-header { display: flex; justify-content: space-between; margin-bottom: 0.4rem; }
+    .skill-name { font-size: 0.88rem; font-weight: 600; color: var(--navy); }
+    .skill-pct { font-size: 0.82rem; color: var(--gold); font-weight: 600; }
+    .skill-bar { height: 6px; background: var(--gray-100); border-radius: 3px; overflow: hidden; }
+    .skill-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 3px; }
+    .soft-skills { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .soft-pill {
+      background: var(--white); border: 1.5px solid var(--gray-100);
+      color: var(--gray-800); padding: 0.45rem 0.9rem;
+      border-radius: 100px; font-size: 0.82rem; font-weight: 500;
+      transition: all 0.2s;
+    }
+    .soft-pill:hover { border-color: var(--gold); color: var(--gold); }
+    .tools-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem; }
+    .tool-tag {
+      background: var(--navy);
+      color: rgba(255,255,255,0.8);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px; font-size: 0.8rem; font-weight: 500;
+    }
+
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+    .project-card {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all 0.25s;
+      display: flex; flex-direction: column;
+    }
+    .project-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .project-thumb {
+      height: 180px;
+      background: var(--navy-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+      position: relative; overflow: hidden;
+    }
+    .project-thumb-img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .project-category {
+      position: absolute; top: 0.75rem; left: 0.75rem;
+      background: rgba(15,28,53,0.85);
+      color: var(--gold-light);
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.25rem 0.65rem; border-radius: 100px;
+    }
+    .project-body { padding: 1.4rem; flex: 1; display: flex; flex-direction: column; }
+    .project-num {
+      font-size: 0.72rem; font-weight: 700;
+      color: var(--gold); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 0.4rem;
+    }
+    .project-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--navy); margin-bottom: 0.5rem;
+    }
+    .project-desc { font-size: 0.88rem; color: var(--gray-600); line-height: 1.65; margin-bottom: 0.8rem; }
+    .project-features {
+      list-style: none; display: flex; flex-direction: column; gap: 0.25rem;
+      margin-bottom: 1rem;
+    }
+    .project-features li {
+      font-size: 0.82rem; color: var(--gray-600);
+      padding-left: 1rem; position: relative;
+    }
+    .project-features li::before { content: '✓'; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
+    .tag {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-100);
+      color: var(--gray-600);
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px; font-size: 0.75rem; font-weight: 500;
+    }
+    .project-actions { display: flex; gap: 0.75rem; margin-top: auto; }
+    .btn-demo {
+      background: var(--navy);
+      color: var(--white);
+      padding: 0.6rem 1.2rem;
+      border-radius: 7px;
+      font-size: 0.85rem; font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+    }
+    .btn-demo:hover { background: var(--navy-light); transform: translateY(-1px); }
+    .btn-demo-outline {
+      background: transparent;
+      border: 1.5px solid var(--gray-100);
+      color: var(--gray-600);
+      padding: 0.6rem 1.2rem;
+      border-radius: 7px;
+      font-size: 0.85rem; font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-demo-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* Portfolio Stats Banner */
+    .stats-banner {
+      background: var(--navy);
+      border-radius: var(--radius-lg);
+      padding: 2rem 2.5rem;
+      display: flex; flex-wrap: wrap; gap: 2rem;
+      justify-content: space-between; align-items: center;
+      margin-bottom: 3rem;
+    }
+    .stats-banner-item { text-align: center; }
+    .stats-banner-num {
+      font-family: 'Sora', sans-serif;
+      font-size: 2rem; font-weight: 800; color: var(--gold);
+    }
+    .stats-banner-label { font-size: 0.82rem; color: rgba(255,255,255,0.6); margin-top: 0.2rem; }
+    .stats-banner-divider { width: 1px; height: 50px; background: rgba(255,255,255,0.1); }
+
+    /* EDUCATION */
+    #education { background: var(--gray-50); }
+    .edu-timeline { display: flex; flex-direction: column; gap: 1.2rem; }
+    .edu-card {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.8rem;
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      transition: box-shadow 0.2s;
+    }
+    .edu-card:hover { box-shadow: var(--shadow); }
+    .edu-badge {
+      background: var(--navy);
+      color: var(--gold);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .edu-badge.current { background: var(--gold); color: var(--navy); }
+    .edu-degree {
+      font-family: 'Sora', sans-serif;
+      font-size: 1rem; font-weight: 700; color: var(--navy);
+      margin-bottom: 0.25rem;
+    }
+    .edu-institute { font-size: 0.88rem; color: var(--gray-600); }
+    .edu-marks { font-size: 0.82rem; color: var(--gold); font-weight: 600; margin-top: 0.3rem; }
+
+    /* CONTACT */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .contact-methods { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-item {
+      display: flex; gap: 1rem; align-items: center;
+      padding: 1rem 1.2rem;
+      background: var(--gray-50);
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .contact-item:hover { background: var(--white); box-shadow: var(--shadow); transform: translateX(4px); }
+    .contact-icon {
+      width: 42px; height: 42px;
+      background: var(--navy);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .contact-label { font-size: 0.75rem; color: var(--gray-400); font-weight: 500; }
+    .contact-val { font-size: 0.92rem; color: var(--navy); font-weight: 600; }
+    .social-links { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem; }
+    .social-btn {
+      background: var(--navy);
+      color: var(--white);
+      padding: 0.55rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.85rem; font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .social-btn:hover { background: var(--navy-light); transform: translateY(-2px); }
+    .contact-cta {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      color: var(--white);
+    }
+    .contact-cta h3 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.5rem; font-weight: 800; margin-bottom: 0.6rem;
+    }
+    .contact-cta h3 span { color: var(--gold); }
+    .contact-cta p { color: rgba(255,255,255,0.7); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem; }
+    .whatsapp-btn {
+      background: #25d366;
+      color: var(--white);
+      padding: 0.8rem 1.8rem;
+      border-radius: 8px;
+      font-weight: 700; font-size: 0.95rem;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      transition: all 0.2s;
+    }
+    .whatsapp-btn:hover { background: #1db954; transform: translateY(-2px); }
+    .avail-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(37,211,102,0.15);
+      border: 1px solid rgba(37,211,102,0.3);
+      color: #25d366;
+      padding: 0.35rem 0.9rem;
+      border-radius: 100px;
+      font-size: 0.78rem; font-weight: 600;
+      margin-bottom: 1.2rem;
+    }
+    .avail-badge::before { content: '●'; font-size: 0.55rem; animation: pulse 2s infinite; }
+
+    /* FOOTER */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 2rem 5%;
+      font-size: 0.85rem;
+    }
+    footer span { color: var(--gold); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-card { display: none; }
+      .about-grid, .skills-grid, .contact-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .stats-banner { justify-content: center; gap: 1.5rem; }
+      .stats-banner-divider { display: none; }
+    }
+  </style>
 </head>
 <body>
-
-<!-- BG ORBS -->
-<div class="bg-orb orb1"></div>
-<div class="bg-orb orb2"></div>
-<div class="bg-orb orb3"></div>
 
 <!-- NAV -->
 <nav>
@@ -779,36 +555,34 @@
 </nav>
 
 <!-- HERO -->
-<section id="home">
+<section id="home" class="hero">
   <div class="hero-inner">
-    <div class="hero-content">
-      <div class="hero-badge"><span class="badge-dot"></span>Available for Freelance Projects</div>
-      <h1 class="hero-name">Muhammad<br><span class="accent">Adeel</span></h1>
-      <p class="hero-title">Front-End Developer & Chatbot Automation Specialist</p>
-      <p class="hero-desc">I help businesses improve their online presence through responsive websites, chatbot automation, and customer support solutions.</p>
-      <div class="hero-btns">
-        <a href="#projects" class="btn-primary">View Projects</a>
-        <a href="#contact" class="btn-secondary">Contact Me</a>
+    <div>
+      <div class="hero-badge">Available for Freelance Projects</div>
+      <h1>Muhammad <span>Adeel</span></h1>
+      <p class="hero-role">Front-End Developer &amp; Chatbot Automation Specialist</p>
+      <p>I build modern, responsive, and user-friendly business websites for local businesses and startups — and set up chatbot systems that automate customer support and lead generation.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">🚀 View Projects</a>
+        <a href="#contact" class="btn-outline">Contact Me</a>
+      </div>
+      <div class="hero-tags">
+        <span class="hero-tag">HTML5</span>
+        <span class="hero-tag">CSS3</span>
+        <span class="hero-tag">JavaScript</span>
+        <span class="hero-tag">ManyChat</span>
+        <span class="hero-tag">Tidio</span>
+        <span class="hero-tag">GitHub</span>
       </div>
     </div>
-    <div class="hero-visual">
-      <div class="hero-card">
-        <div class="avatar-ring">MA</div>
-        <div class="card-name">Muhammad Adeel</div>
-        <div class="card-role">BSIT Student · Lodhran, Pakistan</div>
-        <div class="card-stats">
-          <div class="stat-box"><div class="stat-num">4+</div><div class="stat-label">Projects</div></div>
-          <div class="stat-box"><div class="stat-num">13+</div><div class="stat-label">Skills</div></div>
-          <div class="stat-box"><div class="stat-num">3</div><div class="stat-label">Services</div></div>
-          <div class="stat-box"><div class="stat-num">💡</div><div class="stat-label">Problem Solver</div></div>
-        </div>
-        <div class="skill-tags">
-          <span class="skill-tag">HTML5</span>
-          <span class="skill-tag">CSS3</span>
-          <span class="skill-tag">ManyChat</span>
-          <span class="skill-tag">Tidio</span>
-          <span class="skill-tag">GitHub</span>
-        </div>
+    <div class="hero-card">
+      <div class="hero-avatar">MA</div>
+      <div class="hero-card-name">Muhammad Adeel</div>
+      <div class="hero-card-sub">BSIT Student · Lodhran, Pakistan</div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">7+</div><div class="stat-label">Projects</div></div>
+        <div class="stat"><div class="stat-num">13+</div><div class="stat-label">Skills</div></div>
+        <div class="stat"><div class="stat-num">3</div><div class="stat-label">Services</div></div>
       </div>
     </div>
   </div>
@@ -816,28 +590,47 @@
 
 <!-- ABOUT -->
 <section id="about">
-  <div class="section-wrap">
-    <div class="about-grid reveal">
+  <div class="section-inner">
+    <div class="about-grid">
       <div class="about-text">
-        <div class="section-label">About Me</div>
-        <h2 class="section-title">Building Digital Solutions from Pakistan</h2>
+        <p class="eyebrow">About Me</p>
+        <h2 class="section-title">Building Digital Solutions <span>from Pakistan</span></h2>
         <div class="divider"></div>
-        <p>My name is <strong style="color:var(--accent)">Muhammad Adeel</strong> and I am a BS Information Technology (BSIT) student from Lodhran, Punjab, Pakistan.</p>
+        <p>My name is <strong>Muhammad Adeel</strong> and I am a BS Information Technology (BSIT) student from Lodhran, Punjab, Pakistan.</p>
         <p>I am passionate about technology, web development, automation, and digital solutions. I enjoy building modern websites and creating chatbot systems that help businesses automate customer support and lead generation.</p>
-        <p>My goal is to help businesses provide better customer experiences while improving efficiency through smart technology solutions.</p>
-        <div class="about-highlights">
-          <div class="highlight-item"><span class="hi-icon">🎓</span><div><div class="hi-label">BSIT Student</div><div class="hi-sub">Currently Studying</div></div></div>
-          <div class="highlight-item"><span class="hi-icon">📍</span><div><div class="hi-label">Lodhran, Punjab</div><div class="hi-sub">Pakistan</div></div></div>
-          <div class="highlight-item"><span class="hi-icon">💻</span><div><div class="hi-label">Web Developer</div><div class="hi-sub">Front-End Focused</div></div></div>
-          <div class="highlight-item"><span class="hi-icon">🤖</span><div><div class="hi-label">Chatbot Expert</div><div class="hi-sub">Automation Specialist</div></div></div>
+        <p>My portfolio includes real business projects from the <strong>textile</strong>, <strong>restaurant</strong>, and <strong>healthcare</strong> industries — all focused on clean design, performance, and user experience. My goal is to help local businesses build a strong digital presence.</p>
+        <div class="about-pills">
+          <span class="pill">Web Development</span>
+          <span class="pill">Chatbot Automation</span>
+          <span class="pill">UI/UX Focused</span>
+          <span class="pill">Responsive Design</span>
         </div>
       </div>
-      <div class="about-visual">
-        <div class="info-card"><span class="ic-icon">✉️</span><div><div class="ic-label">Email</div><div class="ic-value">raoadee01@gmail.com</div></div></div>
-        <div class="info-card"><span class="ic-icon">📱</span><div><div class="ic-label">Phone</div><div class="ic-value">+92 304 2568158</div></div></div>
-        <div class="info-card"><span class="ic-icon">🐙</span><div><div class="ic-label">GitHub</div><div class="ic-value">github.com/raoadee-dev</div></div></div>
-        <div class="info-card"><span class="ic-icon">💼</span><div><div class="ic-label">LinkedIn</div><div class="ic-value">linkedin.com/in/raoadee</div></div></div>
-        <div class="info-card"><span class="ic-icon">🎯</span><div><div class="ic-label">Focus</div><div class="ic-value">Web Dev · Automation · Digital Marketing</div></div></div>
+      <div class="about-info">
+        <div class="info-row">
+          <div class="info-icon">🎓</div>
+          <div><div class="info-label">Education</div><div class="info-val">BSIT — Currently Studying</div></div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">📍</div>
+          <div><div class="info-label">Location</div><div class="info-val">Lodhran, Punjab, Pakistan</div></div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">✉️</div>
+          <div><div class="info-label">Email</div><div class="info-val">raoadee01@gmail.com</div></div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">📱</div>
+          <div><div class="info-label">Phone</div><div class="info-val">+92 304 2568158</div></div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">🐙</div>
+          <div><div class="info-label">GitHub</div><div class="info-val">github.com/raoadee-dev</div></div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">💼</div>
+          <div><div class="info-label">LinkedIn</div><div class="info-val">linkedin.com/in/raoadee</div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -845,19 +638,17 @@
 
 <!-- SERVICES -->
 <section id="services">
-  <div class="section-wrap">
-    <div class="reveal">
-      <div class="section-label">My Services</div>
-      <h2 class="section-title">What I Can Do For You</h2>
-      <p class="section-sub">Professional digital services to help your business grow and automate.</p>
-    </div>
-    <div class="services-grid reveal">
+  <div class="section-inner">
+    <p class="eyebrow">What I Can Do</p>
+    <h2 class="section-title">My <span>Services</span></h2>
+    <div class="divider"></div>
+    <div class="services-grid">
       <div class="service-card">
         <div class="service-num">01</div>
         <div class="service-icon">🌐</div>
-        <div class="service-name">Website Development</div>
+        <div class="service-title">Website Development</div>
         <p class="service-desc">Responsive and professional websites for small businesses, personal brands, and startups using modern web technologies.</p>
-        <ul class="feature-list">
+        <ul class="service-list">
           <li>Mobile Friendly Design</li>
           <li>Fast Loading Pages</li>
           <li>Modern User Interface</li>
@@ -868,9 +659,9 @@
       <div class="service-card">
         <div class="service-num">02</div>
         <div class="service-icon">🤖</div>
-        <div class="service-name">Chatbot Setup & Automation</div>
+        <div class="service-title">Chatbot Setup & Automation</div>
         <p class="service-desc">Chatbot systems that automatically respond to customer inquiries and improve customer engagement round the clock.</p>
-        <ul class="feature-list">
+        <ul class="service-list">
           <li>Automated Replies</li>
           <li>Welcome Messages</li>
           <li>Lead Collection</li>
@@ -881,9 +672,9 @@
       <div class="service-card">
         <div class="service-num">03</div>
         <div class="service-icon">⚡</div>
-        <div class="service-name">Customer Support Automation</div>
+        <div class="service-title">Customer Support Automation</div>
         <p class="service-desc">Reduce manual work by setting up smart automated customer support solutions that handle inquiries efficiently.</p>
-        <ul class="feature-list">
+        <ul class="service-list">
           <li>Quick Customer Responses</li>
           <li>Automated FAQ System</li>
           <li>Lead Management</li>
@@ -896,41 +687,69 @@
 
 <!-- SKILLS -->
 <section id="skills">
-  <div class="section-wrap">
-    <div class="reveal">
-      <div class="section-label">Skills</div>
-      <h2 class="section-title">My Technical Arsenal</h2>
-      <p class="section-sub">Technologies and tools I work with to deliver quality solutions.</p>
-    </div>
-    <div class="skills-grid reveal">
-      <div>
-        <div class="skill-group-title">Technical Skills</div>
-        <div class="skill-item"><div class="skill-info"><span class="skill-name">HTML5</span><span class="skill-pct">90%</span></div><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
-        <div class="skill-item"><div class="skill-info"><span class="skill-name">CSS3</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
-        <div class="skill-item"><div class="skill-info"><span class="skill-name">Responsive Web Design</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
-        <div class="skill-item"><div class="skill-info"><span class="skill-name">Git & GitHub</span><span class="skill-pct">75%</span></div><div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div></div>
-        <div class="skill-item"><div class="skill-info"><span class="skill-name">Basic JavaScript</span><span class="skill-pct">60%</span></div><div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div></div>
-        <div class="skill-item"><div class="skill-info"><span class="skill-name">ManyChat</span><span class="skill-pct">80%</span></div><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
-        <div class="skill-item"><div class="skill-info"><span class="skill-name">Tidio</span><span class="skill-pct">78%</span></div><div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div></div>
-        <div class="skill-item"><div class="skill-info"><span class="skill-name">SEO Basics</span><span class="skill-pct">65%</span></div><div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div></div>
-        <div class="skill-item"><div class="skill-info"><span class="skill-name">Digital Marketing</span><span class="skill-pct">70%</span></div><div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div></div>
-      </div>
-      <div>
-        <div class="skill-group-title">Soft Skills</div>
-        <div class="soft-skills-wrap">
-          <div class="soft-item"><span class="soft-icon">🗣️</span> Communication</div>
-          <div class="soft-item"><span class="soft-icon">🧩</span> Problem Solving</div>
-          <div class="soft-item"><span class="soft-icon">🤝</span> Teamwork</div>
-          <div class="soft-item"><span class="soft-icon">⏰</span> Time Management</div>
-          <div class="soft-item"><span class="soft-icon">⚡</span> Quick Learning</div>
+  <div class="section-inner">
+    <p class="eyebrow">My Arsenal</p>
+    <h2 class="section-title">Technical <span>Skills</span></h2>
+    <div class="divider"></div>
+    <div class="skills-grid">
+      <div class="skills-col">
+        <h3>Technical Skills</h3>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">HTML5</span><span class="skill-pct">90%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
         </div>
-        <div style="margin-top:2rem">
-          <div class="skill-group-title">Tools & Platforms</div>
-          <div class="soft-skills-wrap">
-            <div class="soft-item"><span class="soft-icon">📄</span> MS Office</div>
-            <div class="soft-item"><span class="soft-icon">🐙</span> GitHub Pages</div>
-            <div class="soft-item"><span class="soft-icon">🔍</span> Internet Research</div>
-          </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">CSS3</span><span class="skill-pct">85%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Responsive Web Design</span><span class="skill-pct">85%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Git & GitHub</span><span class="skill-pct">75%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Basic JavaScript</span><span class="skill-pct">60%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">ManyChat</span><span class="skill-pct">80%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Tidio</span><span class="skill-pct">78%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">SEO Basics</span><span class="skill-pct">65%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Digital Marketing</span><span class="skill-pct">70%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
+        </div>
+      </div>
+      <div class="skills-col">
+        <h3>Soft Skills</h3>
+        <div class="soft-skills">
+          <span class="soft-pill">🗣️ Communication</span>
+          <span class="soft-pill">🧩 Problem Solving</span>
+          <span class="soft-pill">🤝 Teamwork</span>
+          <span class="soft-pill">⏰ Time Management</span>
+          <span class="soft-pill">⚡ Quick Learning</span>
+        </div>
+        <br/>
+        <h3>Tools & Platforms</h3>
+        <div class="tools-grid">
+          <span class="tool-tag">📄 MS Office</span>
+          <span class="tool-tag">🐙 GitHub Pages</span>
+          <span class="tool-tag">🔍 Internet Research</span>
+          <span class="tool-tag">🌐 HTML5</span>
+          <span class="tool-tag">🎨 CSS3</span>
+          <span class="tool-tag">🤖 ManyChat</span>
+          <span class="tool-tag">💬 Tidio</span>
         </div>
       </div>
     </div>
@@ -939,67 +758,256 @@
 
 <!-- PROJECTS -->
 <section id="projects">
-  <div class="section-wrap">
-    <div class="reveal">
-      <div class="section-label">Projects</div>
-      <h2 class="section-title">Work I've Built</h2>
-      <p class="section-sub">Real projects showcasing my skills in web development and chatbot automation.</p>
+  <div class="section-inner">
+    <p class="eyebrow">Work I've Built</p>
+    <h2 class="section-title">My <span>Projects</span></h2>
+    <div class="divider"></div>
+
+    <!-- Stats Banner -->
+    <div class="stats-banner">
+      <div class="stats-banner-item">
+        <div class="stats-banner-num">3+</div>
+        <div class="stats-banner-label">Business Website Projects</div>
+      </div>
+      <div class="stats-banner-divider"></div>
+      <div class="stats-banner-item">
+        <div class="stats-banner-num">100%</div>
+        <div class="stats-banner-label">Responsive Designs</div>
+      </div>
+      <div class="stats-banner-divider"></div>
+      <div class="stats-banner-item">
+        <div class="stats-banner-num">3</div>
+        <div class="stats-banner-label">Industries Covered</div>
+      </div>
+      <div class="stats-banner-divider"></div>
+      <div class="stats-banner-item">
+        <div class="stats-banner-num">Frontend</div>
+        <div class="stats-banner-label">UI/UX Focused Development</div>
+      </div>
     </div>
-    <div class="projects-grid reveal">
+
+    <div class="projects-grid">
+
+      <!-- Project 1: Dawood Fabrics -->
       <div class="project-card">
-        <div class="project-header"><div class="project-num">01</div><div class="project-icon">🖥️</div></div>
-        <div class="project-name">Personal Portfolio Website</div>
-        <p class="project-desc">A responsive personal portfolio website developed using HTML and CSS, deployed using GitHub Pages to showcase my skills and projects.</p>
-        <div class="project-techs"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">GitHub Pages</span></div>
+        <div class="project-thumb" style="background: linear-gradient(135deg, #1a2d50 0%, #2d4a7a 100%);">
+          <div style="text-align:center; padding: 1rem;">
+            <div style="font-size:2.5rem;">🧵</div>
+            <div style="color:var(--gold);font-size:0.85rem;font-weight:700;letter-spacing:0.05em;margin-top:0.4rem;">DAWOOD FABRICS</div>
+          </div>
+          <span class="project-category">Textile Industry</span>
+        </div>
+        <div class="project-body">
+          <div class="project-num">Project 01</div>
+          <div class="project-title">Dawood Fabrics — Textile Business Website</div>
+          <p class="project-desc">A modern and responsive website designed for a textile and fabrics business in Lodhran. Showcases fabric collections, business information, and contact details in a clean professional layout.</p>
+          <ul class="project-features">
+            <li>Fully Responsive Design</li>
+            <li>Modern Business Layout</li>
+            <li>Fabric Collection Showcase</li>
+            <li>Smooth Navigation</li>
+            <li>Contact Section with Google Maps</li>
+            <li>Mobile Friendly Interface</li>
+          </ul>
+          <div class="project-tags">
+            <span class="tag">HTML5</span>
+            <span class="tag">CSS3</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">GitHub Pages</span>
+          </div>
+          <div class="project-actions">
+            <a href="https://raoadee-dev.github.io/Dawood-Fabrics-Website/" target="_blank" class="btn-demo">🔗 Live Demo</a>
+          </div>
+        </div>
       </div>
+
+      <!-- Project 2: Forks N Knives -->
       <div class="project-card">
-        <div class="project-header"><div class="project-num">02</div><div class="project-icon">🏢</div></div>
-        <div class="project-name">Business Website Demo</div>
-        <p class="project-desc">A modern business website designed for small businesses with a responsive layout, professional design, and clean user experience.</p>
-        <div class="project-techs"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span></div>
+        <div class="project-thumb" style="background: linear-gradient(135deg, #1a0a0a 0%, #3d1a1a 100%);">
+          <div style="text-align:center; padding: 1rem;">
+            <div style="font-size:2.5rem;">🍕</div>
+            <div style="color:#e53e3e;font-size:0.85rem;font-weight:700;letter-spacing:0.05em;margin-top:0.4rem;">FORKS N KNIVES</div>
+          </div>
+          <span class="project-category">Restaurant</span>
+        </div>
+        <div class="project-body">
+          <div class="project-num">Project 02</div>
+          <div class="project-title">Forks N Knives — Restaurant Website</div>
+          <p class="project-desc">A premium restaurant website for showcasing menu items, special deals, food gallery, and restaurant information with an engaging cinematic user experience.</p>
+          <ul class="project-features">
+            <li>Dark Cinematic Theme</li>
+            <li>Interactive Food Menu</li>
+            <li>Hot Deals Section</li>
+            <li>Food Gallery</li>
+            <li>Google Maps Integration</li>
+            <li>Mobile Optimized</li>
+          </ul>
+          <div class="project-tags">
+            <span class="tag">HTML5</span>
+            <span class="tag">CSS3</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">GitHub Pages</span>
+          </div>
+          <div class="project-actions">
+            <a href="https://raoadee-dev.github.io/Forks-n-Knives-Web-Demo/" target="_blank" class="btn-demo">🔗 Live Demo</a>
+          </div>
+        </div>
       </div>
+
+      <!-- Project 3: Bashir Pharmacy -->
       <div class="project-card">
-        <div class="project-header"><div class="project-num">03</div><div class="project-icon">💬</div></div>
-        <div class="project-name">Customer Support Chatbot</div>
-        <p class="project-desc">A chatbot automation system designed to answer customer questions, handle FAQs, and collect leads automatically without manual input.</p>
-        <div class="project-techs"><span class="tech-tag">ManyChat</span><span class="tech-tag">Tidio</span></div>
+        <div class="project-thumb" style="background: linear-gradient(135deg, #0a2010 0%, #1a4a2a 100%);">
+          <div style="text-align:center; padding: 1rem;">
+            <div style="font-size:2.5rem;">💊</div>
+            <div style="color:#4ade80;font-size:0.85rem;font-weight:700;letter-spacing:0.05em;margin-top:0.4rem;">BASHIR PHARMACY</div>
+          </div>
+          <span class="project-category">Healthcare</span>
+        </div>
+        <div class="project-body">
+          <div class="project-num">Project 03</div>
+          <div class="project-title">Bashir Pharmacy Plus Mart — Pharmacy Website</div>
+          <p class="project-desc">A professional pharmacy and mart website designed to present medicines, healthcare products, store information, and customer contact details through a modern responsive interface.</p>
+          <ul class="project-features">
+            <li>Pharmacy Product Showcase</li>
+            <li>Healthcare Business Layout</li>
+            <li>Services Section</li>
+            <li>Contact Information & Google Maps</li>
+            <li>Modern User Interface</li>
+            <li>Mobile Friendly Design</li>
+          </ul>
+          <div class="project-tags">
+            <span class="tag">HTML5</span>
+            <span class="tag">CSS3</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">GitHub Pages</span>
+          </div>
+          <div class="project-actions">
+            <a href="https://raoadee-dev.github.io/Bashir-Pharmacy-Plus-Mart-Demo-Site/" target="_blank" class="btn-demo">🔗 Live Demo</a>
+          </div>
+        </div>
       </div>
+
+      <!-- Project 4: Personal Portfolio -->
       <div class="project-card">
-        <div class="project-header"><div class="project-num">04</div><div class="project-icon">🎯</div></div>
-        <div class="project-name">Lead Generation Automation</div>
-        <p class="project-desc">An automated workflow that helps businesses capture customer information, improve response times, and manage leads efficiently.</p>
-        <div class="project-techs"><span class="tech-tag">ManyChat</span><span class="tech-tag">Tidio</span></div>
+        <div class="project-thumb" style="background: linear-gradient(135deg, var(--navy) 0%, #2a3f6f 100%);">
+          <div style="text-align:center; padding: 1rem;">
+            <div style="font-size:2.5rem;">🖥️</div>
+            <div style="color:var(--gold);font-size:0.85rem;font-weight:700;letter-spacing:0.05em;margin-top:0.4rem;">PERSONAL PORTFOLIO</div>
+          </div>
+          <span class="project-category">Portfolio</span>
+        </div>
+        <div class="project-body">
+          <div class="project-num">Project 04</div>
+          <div class="project-title">Personal Portfolio Website</div>
+          <p class="project-desc">A responsive personal portfolio website developed using HTML and CSS, deployed using GitHub Pages to showcase skills and projects professionally.</p>
+          <ul class="project-features">
+            <li>Fully Responsive Layout</li>
+            <li>Clean Professional Design</li>
+            <li>Skills & Projects Showcase</li>
+            <li>Contact Section</li>
+          </ul>
+          <div class="project-tags">
+            <span class="tag">HTML5</span>
+            <span class="tag">CSS3</span>
+            <span class="tag">GitHub Pages</span>
+          </div>
+          <div class="project-actions">
+            <a href="https://raoadee-dev.github.io/-Portfolio_Adii/" target="_blank" class="btn-demo">🔗 Live Demo</a>
+          </div>
+        </div>
       </div>
+
+      <!-- Project 5: Chatbot -->
+      <div class="project-card">
+        <div class="project-thumb" style="background: linear-gradient(135deg, #1a1040 0%, #2d1f6e 100%);">
+          <div style="text-align:center; padding: 1rem;">
+            <div style="font-size:2.5rem;">💬</div>
+            <div style="color:#a78bfa;font-size:0.85rem;font-weight:700;letter-spacing:0.05em;margin-top:0.4rem;">CHATBOT AUTOMATION</div>
+          </div>
+          <span class="project-category">Automation</span>
+        </div>
+        <div class="project-body">
+          <div class="project-num">Project 05</div>
+          <div class="project-title">Customer Support Chatbot</div>
+          <p class="project-desc">A chatbot automation system designed to answer customer questions, handle FAQs, and collect leads automatically without manual input.</p>
+          <ul class="project-features">
+            <li>Automated FAQ Responses</li>
+            <li>Lead Collection System</li>
+            <li>Welcome Message Flows</li>
+            <li>24/7 Customer Support</li>
+          </ul>
+          <div class="project-tags">
+            <span class="tag">ManyChat</span>
+            <span class="tag">Tidio</span>
+          </div>
+          <div class="project-actions">
+            <a href="#contact" class="btn-demo">📩 Inquire</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 6: Lead Generation -->
+      <div class="project-card">
+        <div class="project-thumb" style="background: linear-gradient(135deg, #1a1200 0%, #4a3200 100%);">
+          <div style="text-align:center; padding: 1rem;">
+            <div style="font-size:2.5rem;">🎯</div>
+            <div style="color:var(--gold-light);font-size:0.85rem;font-weight:700;letter-spacing:0.05em;margin-top:0.4rem;">LEAD GENERATION</div>
+          </div>
+          <span class="project-category">Automation</span>
+        </div>
+        <div class="project-body">
+          <div class="project-num">Project 06</div>
+          <div class="project-title">Lead Generation Automation</div>
+          <p class="project-desc">An automated workflow that helps businesses capture customer information, improve response times, and manage leads efficiently.</p>
+          <ul class="project-features">
+            <li>Customer Info Capture</li>
+            <li>Automated Follow-ups</li>
+            <li>Lead Management</li>
+            <li>Response Time Optimization</li>
+          </ul>
+          <div class="project-tags">
+            <span class="tag">ManyChat</span>
+            <span class="tag">Tidio</span>
+          </div>
+          <div class="project-actions">
+            <a href="#contact" class="btn-demo">📩 Inquire</a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
 <!-- EDUCATION -->
 <section id="education">
-  <div class="section-wrap">
-    <div class="reveal">
-      <div class="section-label">Education</div>
-      <h2 class="section-title">Academic Background</h2>
-      <p class="section-sub">My educational journey that shaped my technical foundation.</p>
-    </div>
-    <div class="edu-timeline reveal">
-      <div class="edu-item">
-        <div class="edu-badge">Current</div>
-        <div class="edu-degree">Bachelor of Science in Information Technology (BSIT)</div>
-        <div class="edu-school">Currently Studying</div>
-        <div class="edu-marks">Pursuing knowledge in IT, Web Development & Digital Solutions</div>
+  <div class="section-inner">
+    <p class="eyebrow">Academic Background</p>
+    <h2 class="section-title">My <span>Education</span></h2>
+    <div class="divider"></div>
+    <div class="edu-timeline">
+      <div class="edu-card">
+        <div class="edu-badge current">Current</div>
+        <div>
+          <div class="edu-degree">Bachelor of Science in Information Technology (BSIT)</div>
+          <div class="edu-institute">Currently Studying — Pursuing knowledge in IT, Web Development & Digital Solutions</div>
+        </div>
       </div>
-      <div class="edu-item">
+      <div class="edu-card">
         <div class="edu-badge">Completed</div>
-        <div class="edu-degree">Intermediate — ICS Pure</div>
-        <div class="edu-school">Aims College Lodhran</div>
-        <div class="edu-marks">📊 Marks: 953 / 1200</div>
+        <div>
+          <div class="edu-degree">Intermediate — ICS Pure</div>
+          <div class="edu-institute">Aims College Lodhran</div>
+          <div class="edu-marks">📊 Marks: 953 / 1200</div>
+        </div>
       </div>
-      <div class="edu-item">
+      <div class="edu-card">
         <div class="edu-badge">Completed</div>
-        <div class="edu-degree">Matriculation — Science Group</div>
-        <div class="edu-school">Aims College Lodhran</div>
-        <div class="edu-marks">📊 Marks: 914 / 1100</div>
+        <div>
+          <div class="edu-degree">Matriculation — Science Group</div>
+          <div class="edu-institute">Aims College Lodhran</div>
+          <div class="edu-marks">📊 Marks: 914 / 1100</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1007,36 +1015,40 @@
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="section-wrap">
-    <div class="reveal">
-      <div class="section-label">Contact</div>
-      <h2 class="section-title">Let's Work Together</h2>
-      <p class="section-sub">Ready to build smart digital solutions for your business? Let's connect.</p>
-    </div>
-    <div class="contact-grid reveal">
+  <div class="section-inner">
+    <p class="eyebrow">Let's Work Together</p>
+    <h2 class="section-title">Get In <span>Touch</span></h2>
+    <div class="divider"></div>
+    <div class="contact-grid">
       <div>
-        <div class="contact-info-title">Get In Touch</div>
-        <p class="contact-info-sub">Let's work together and build smart digital solutions for your business. Reach out through any of these channels.</p>
-        <div class="contact-items">
-          <a href="mailto:raoadee01@gmail.com" class="contact-item"><span class="ci-icon">✉️</span><div><div class="ci-label">Email</div><div class="ci-val">raoadee01@gmail.com</div></div></a>
-          <a href="tel:+923042568158" class="contact-item"><span class="ci-icon">📱</span><div><div class="ci-label">Phone</div><div class="ci-val">+92 304 2568158</div></div></a>
-          <a class="contact-item"><span class="ci-icon">📍</span><div><div class="ci-label">Location</div><div class="ci-val">Lodhran, Punjab, Pakistan</div></div></a>
-          <a href="https://wa.me/923042568158?text=Hello%20this%20is%20Adeel%20Rajpoot" target="_blank" class="contact-item"><span class="ci-icon">💬</span><div><div class="ci-label">WhatsApp</div><div class="ci-val">Chat on WhatsApp</div></div></a>
+        <div class="contact-methods">
+          <a href="mailto:raoadee01@gmail.com" class="contact-item">
+            <div class="contact-icon">✉️</div>
+            <div><div class="contact-label">Email</div><div class="contact-val">raoadee01@gmail.com</div></div>
+          </a>
+          <a href="tel:+923042568158" class="contact-item">
+            <div class="contact-icon">📱</div>
+            <div><div class="contact-label">Phone</div><div class="contact-val">+92 304 2568158</div></div>
+          </a>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div><div class="contact-label">Location</div><div class="contact-val">Lodhran, Punjab, Pakistan</div></div>
+          </div>
+        </div>
+        <div class="social-links">
+          <a href="https://github.com/raoadee-dev" target="_blank" class="social-btn">🐙 GitHub</a>
+          <a href="https://www.linkedin.com/in/raoadee" target="_blank" class="social-btn">💼 LinkedIn</a>
+          <a href="https://www.instagram.com/stfu_adexl" target="_blank" class="social-btn">📸 Instagram</a>
+          <a href="https://www.facebook.com/rao.adee01" target="_blank" class="social-btn">📘 Facebook</a>
         </div>
       </div>
-      <div>
-        <div class="skill-group-title" style="margin-bottom:1.2rem">Social Media</div>
-        <div class="social-grid">
-          <a href="https://github.com/raoadee-dev" target="_blank" class="social-card"><span class="sc-icon">🐙</span><div><div class="sc-name">GitHub</div><div class="sc-handle">raoadee-dev</div></div></a>
-          <a href="https://www.linkedin.com/in/raoadee" target="_blank" class="social-card"><span class="sc-icon">💼</span><div><div class="sc-name">LinkedIn</div><div class="sc-handle">raoadee</div></div></a>
-          <a href="https://www.instagram.com/stfu_adexl" target="_blank" class="social-card"><span class="sc-icon">📸</span><div><div class="sc-name">Instagram</div><div class="sc-handle">stfu_adexl</div></div></a>
-          <a href="https://www.facebook.com/rao.adee01" target="_blank" class="social-card"><span class="sc-icon">📘</span><div><div class="sc-name">Facebook</div><div class="sc-handle">rao.adee01</div></div></a>
-        </div>
-        <div class="contact-cta">
-          <div class="cta-text">Ready to Start a Project?</div>
-          <p class="cta-sub">I'm available for freelance projects and collaborations.</p>
-          <a href="https://wa.me/923042568158?text=Hello%20this%20is%20Adeel%20Rajpoot" target="_blank" class="btn-primary" style="display:inline-block">Message on WhatsApp</a>
-        </div>
+      <div class="contact-cta">
+        <div class="avail-badge">Available for Projects</div>
+        <h3>Ready to Start a <span>Project?</span></h3>
+        <p>I'm available for freelance projects and collaborations. Whether you need a business website, chatbot setup, or digital automation — let's connect and build something great.</p>
+        <a href="https://wa.me/923042568158?text=Hello%20Muhammad%20Adeel%2C%20I%20want%20to%20discuss%20a%20project" target="_blank" class="whatsapp-btn">
+          💬 Message on WhatsApp
+        </a>
       </div>
     </div>
   </div>
@@ -1044,37 +1056,9 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-logo">Muhammad <span>Adeel</span></div>
-    <div class="footer-tagline">Front-End Developer · Chatbot Automation Specialist</div>
-    <div class="footer-copy">© 2026 Muhammad Adeel · Built with HTML, CSS & GitHub Pages · Lodhran, Punjab, Pakistan</div>
-  </div>
+  <p>Muhammad <span>Adeel</span> · Front-End Developer · Chatbot Automation Specialist</p>
+  <p style="margin-top:0.4rem;">© 2026 Muhammad Adeel · Built with HTML, CSS &amp; GitHub Pages · Lodhran, Punjab, Pakistan</p>
 </footer>
 
-<script>
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-      }
-    });
-  }, { threshold: 0.08 });
-  reveals.forEach(el => observer.observe(el));
-
-  // Nav active state
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id');
-    });
-    navLinks.forEach(a => {
-      a.style.color = a.getAttribute('href') === '#'+current ? 'var(--accent)' : '';
-    });
-  });
-</script>
 </body>
 </html>
