@@ -14,28 +14,36 @@
     :root {
       --navy: #0f1c35;
       --navy-light: #1a2d50;
+      --navy-mid: #243a5e;
       --gold: #d4a017;
       --gold-light: #f0c040;
       --white: #ffffff;
-      --gray-50: #f8f9fb;
-      --gray-100: #eef0f4;
-      --gray-400: #9ca3af;
-      --gray-600: #4b5563;
-      --gray-800: #1f2937;
-      --text: #1e2535;
+      --bg-base: #edf1f7;
+      --bg-alt: #e2e8f2;
+      --bg-card: #f5f8fc;
+      --gray-50: #f0f4fa;
+      --gray-100: #dde5f0;
+      --gray-400: #7a8aa8;
+      --gray-600: #3d5070;
+      --gray-800: #1a2840;
+      --text: #1a2840;
       --radius: 12px;
       --radius-lg: 20px;
-      --shadow: 0 4px 24px rgba(15,28,53,0.08);
-      --shadow-lg: 0 8px 40px rgba(15,28,53,0.14);
+      --shadow: 0 4px 24px rgba(15,28,53,0.10);
+      --shadow-lg: 0 8px 40px rgba(15,28,53,0.18);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--white);
+      background: var(--bg-base);
       color: var(--text);
       line-height: 1.6;
+    }
+    /* Subtle section stripe effect */
+    #about, #skills, #projects, #education {
+      background-image: radial-gradient(circle at 80% 20%, rgba(15,28,53,0.04) 0%, transparent 60%);
     }
 
     /* NAV */
@@ -200,7 +208,7 @@
       font-family: 'Sora', sans-serif;
       font-size: clamp(1.8rem, 3.5vw, 2.5rem);
       font-weight: 800; color: var(--navy);
-      line-height: 1.15; margin-bottom: 0.8rem;
+      line-height: 1.15; margin-bottom: 0.8rem; letter-spacing: -0.02em;
     }
     .section-title span { color: var(--gold); }
     .section-desc {
@@ -216,7 +224,10 @@
     }
 
     /* ABOUT */
-    #about { background: var(--gray-50); }
+    #about { background: var(--bg-alt); }
+    #services { background: var(--bg-base); }
+    #projects { background: var(--bg-alt); }
+    #contact { background: var(--bg-base); }
     .about-grid {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 4rem; align-items: start;
@@ -239,7 +250,7 @@
     .info-row {
       display: flex; gap: 1rem; align-items: flex-start;
       padding: 1rem 1.2rem;
-      background: var(--white);
+      background: var(--bg-card);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
     }
@@ -258,8 +269,9 @@
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
     }
     .service-card {
-      background: var(--white);
+      background: var(--bg-card);
       border: 1px solid var(--gray-100);
+      border-top: 3px solid var(--navy-mid);
       border-radius: var(--radius-lg);
       padding: 2rem 1.5rem;
       transition: all 0.25s;
@@ -268,6 +280,7 @@
       transform: translateY(-4px);
       box-shadow: var(--shadow-lg);
       border-color: var(--gold);
+      border-top: 3px solid var(--gold);
     }
     .service-num {
       font-family: 'Sora', sans-serif;
@@ -290,7 +303,7 @@
     .service-list li::before { content: '→'; position: absolute; left: 0; color: var(--gold); }
 
     /* SKILLS */
-    #skills { background: var(--gray-50); }
+    #skills { background: var(--bg-alt); }
     .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
     .skills-col h3 {
       font-family: 'Sora', sans-serif;
@@ -301,11 +314,11 @@
     .skill-header { display: flex; justify-content: space-between; margin-bottom: 0.4rem; }
     .skill-name { font-size: 0.88rem; font-weight: 600; color: var(--navy); }
     .skill-pct { font-size: 0.82rem; color: var(--gold); font-weight: 600; }
-    .skill-bar { height: 6px; background: var(--gray-100); border-radius: 3px; overflow: hidden; }
+    .skill-bar { height: 7px; background: var(--gray-100); border-radius: 3px; overflow: hidden; }
     .skill-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 3px; }
     .soft-skills { display: flex; flex-wrap: wrap; gap: 0.6rem; }
     .soft-pill {
-      background: var(--white); border: 1.5px solid var(--gray-100);
+      background: var(--bg-card); border: 1.5px solid var(--gray-100);
       color: var(--gray-800); padding: 0.45rem 0.9rem;
       border-radius: 100px; font-size: 0.82rem; font-weight: 500;
       transition: all 0.2s;
@@ -322,7 +335,7 @@
     /* PROJECTS */
     .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
     .project-card {
-      background: var(--white);
+      background: var(--bg-card);
       border: 1px solid var(--gray-100);
       border-radius: var(--radius-lg);
       overflow: hidden;
@@ -371,7 +384,7 @@
     .project-features li::before { content: '✓'; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
     .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
     .tag {
-      background: var(--gray-50);
+      background: var(--bg-alt);
       border: 1px solid var(--gray-100);
       color: var(--gray-600);
       padding: 0.2rem 0.6rem;
@@ -419,10 +432,10 @@
     .stats-banner-divider { width: 1px; height: 50px; background: rgba(255,255,255,0.1); }
 
     /* EDUCATION */
-    #education { background: var(--gray-50); }
+    #education { background: var(--bg-alt); }
     .edu-timeline { display: flex; flex-direction: column; gap: 1.2rem; }
     .edu-card {
-      background: var(--white);
+      background: var(--bg-card);
       border: 1px solid var(--gray-100);
       border-radius: var(--radius);
       padding: 1.5rem 1.8rem;
@@ -454,12 +467,12 @@
     .contact-item {
       display: flex; gap: 1rem; align-items: center;
       padding: 1rem 1.2rem;
-      background: var(--gray-50);
+      background: var(--bg-alt);
       border-radius: var(--radius);
       text-decoration: none;
       transition: all 0.2s;
     }
-    .contact-item:hover { background: var(--white); box-shadow: var(--shadow); transform: translateX(4px); }
+    .contact-item:hover { background: var(--bg-card); box-shadow: var(--shadow); transform: translateX(4px); }
     .contact-icon {
       width: 42px; height: 42px;
       background: var(--navy);
@@ -542,7 +555,7 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#home" class="nav-logo">MA<span>.</span></a>
+  <a href="#home" class="nav-logo">A<span>R</span>.</a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#services">Services</a></li>
@@ -558,7 +571,7 @@
   <div class="hero-inner">
     <div>
       <div class="hero-badge">Available for Freelance Projects</div>
-      <h1>Muhammad <span>Adeel</span></h1>
+      <h1>Adeel <span>Rajpoot</span></h1>
       <p class="hero-role">Front-End Developer &amp; Chatbot Automation Specialist</p>
       <p>I build modern, responsive, and user-friendly business websites for local businesses and startups — and set up chatbot systems that automate customer support and lead generation.</p>
       <div class="hero-actions">
@@ -1110,7 +1123,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>Muhammad <span>Adeel</span> · Front-End Developer · Chatbot Automation Specialist</p>
+  <p>Adeel <span>Rajpoot</span> · Front-End Developer · Chatbot Automation Specialist</p>
   <p style="margin-top:0.4rem;">© 2026 Adeel Rajpoot · Built with HTML, CSS &amp; GitHub Pages · Lodhran, Punjab, Pakistan</p>
 </footer>
 
